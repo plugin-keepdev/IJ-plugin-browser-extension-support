@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+    <!-- This is a logo of a plugin and of a browser extension project type that this plugin adds to the IDE -->
     <defs>
         <linearGradient id="lightBlueToGreen" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stop-color="lightblue" />
