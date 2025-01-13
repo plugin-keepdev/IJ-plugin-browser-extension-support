@@ -1,0 +1,62 @@
+<idea-plugin>
+    <id>com.keepdev.PyCharmBrowserExtension</id>
+    <name>Browser Extension Generator</name>
+    <version>1.0</version>
+    <vendor email="support@keepdev.com" url="https://www.keepdev.com">Keepdev</vendor>
+    <description>
+        Adds a new project type, Browser Extension, to a File | New Project dialogue and an option to generate a browser extension in a form of .zip, .xpi or .crx out of the projects file
+        in the project directory.
+        The latter option is available as a last line of a context menu
+        (when you click on a project name) and in File menu.
+
+        Support: ij-browser-extension-support@keepdev.com
+    </description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <directoryProjectGenerator
+                implementation="com.keepdev.pycharmbrowserextension.BrowserExtensionProjectGenerator"/>
+    </extensions>
+
+    <actions>
+        <group id="com.keepdev.pycharmbrowserextension.FileSaveAsExtension" description="Pack project files into an archive" text="Save project as extension" popup="true" compact="false">
+            <add-to-group group-id="FileMenu" anchor="after" relative-to-action="OpenFile"/>
+            <action
+                    id="FileSaveAsExtension.PackAsZip"
+                    class="com.keepdev.pycharmbrowserextension.PackAsZipAction"
+                    text=".zip for extension store"
+                    description="Pack project files into a .zip archive">
+            </action>
+            <action
+                    id="FileSaveAsExtension.PackAsCrx"
+                    class="com.keepdev.pycharmbrowserextension.PackAsCrxAction"
+                    text=".crx for Chrome"
+                    description="Pack project files into a .crx archive" />
+            <action
+                    id="FileSaveAsExtension.PackAsXpi"
+                    class="com.keepdev.pycharmbrowserextension.PackAsXpiAction"
+                    text=".xpi for Firefox"
+                    description="Pack project files into a .xpi archive" />
+        </group>
+        <group id="com.keepdev.pycharmbrowserextension.PackActionGroup" description="Pack project files into an archive" text="Save as extension" popup="true" compact="false">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+            <action
+                    id="PackActionGroup.PackAsZip"
+                    class="com.keepdev.pycharmbrowserextension.PackAsZipAction"
+                    text=".zip for extension store"
+                    description="Pack project files into a .zip archive">
+            </action>
+            <action
+                    id="PackActionGroup.PackAsCrx"
+                    class="com.keepdev.pycharmbrowserextension.PackAsCrxAction"
+                    text=".crx for Chrome"
+                    description="Pack project files into a .crx archive" />
+            <action
+                    id="PackActionGroup.PackAsXpi"
+                    class="com.keepdev.pycharmbrowserextension.PackAsXpiAction"
+                    text=".xpi for Firefox"
+                    description="Pack project files into a .xpi archive" />
+        </group>
+    </actions>
+</idea-plugin>
