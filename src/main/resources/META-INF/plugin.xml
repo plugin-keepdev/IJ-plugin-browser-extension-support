@@ -11,6 +11,7 @@
 
         Support: ij-browser-extension-support@keepdev.com
     </description>
+    <idea-version since-build="243" until-build="243.*" />
 
     <depends>com.intellij.modules.platform</depends>
 
