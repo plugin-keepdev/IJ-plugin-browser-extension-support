@@ -4,7 +4,8 @@
     <version>1.1</version>
     <vendor email="support@keepdev.com" url="https://www.keepdev.com">Keepdev</vendor>
     <description>
-        Adds a new project type, Browser Extension, to a File | New Project dialogue and an option to generate a browser extension in a form of .zip, .xpi or .crx out of the projects file
+        Adds a new project type, Browser Extension, to a File | New Project dialogue and an option to generate a browser
+        extension in a form of .zip, .xpi or .crx out of the projects file
         in the project directory.
         The latter option is available as a last line of a context menu
         (when you click on a project name) and in File menu.
@@ -21,7 +22,9 @@
     </extensions>
 
     <actions>
-        <group id="com.keepdev.pycharmbrowserextension.FileSaveAsExtension" description="Pack project files into an archive" text="Save project as extension" popup="true" compact="false">
+        <group id="com.keepdev.pycharmbrowserextension.FileSaveAsExtension"
+               description="Pack project files into an archive" text="Save project as extension" popup="true"
+               compact="false">
             <add-to-group group-id="FileMenu" anchor="after" relative-to-action="OpenFile"/>
             <action
                     id="FileSaveAsExtension.PackAsZip"
@@ -33,9 +36,10 @@
                     id="FileSaveAsExtension.PackAsXpi"
                     class="com.keepdev.pycharmbrowserextension.PackAsXpiAction"
                     text=".xpi for Firefox"
-                    description="Pack project files into a .xpi archive" />
+                    description="Pack project files into a .xpi archive"/>
         </group>
-        <group id="com.keepdev.pycharmbrowserextension.PackActionGroup" description="Pack project files into an archive" text="Save as extension" popup="true" compact="false">
+        <group id="com.keepdev.pycharmbrowserextension.PackActionGroup" description="Pack project files into an archive"
+               text="Save as extension" popup="true" compact="false">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
             <action
                     id="PackActionGroup.PackAsZip"
@@ -47,28 +51,28 @@
                     id="PackActionGroup.PackAsXpi"
                     class="com.keepdev.pycharmbrowserextension.PackAsXpiAction"
                     text=".xpi for Firefox"
-                    description="Pack project files into a .xpi archive" />
+                    description="Pack project files into a .xpi archive"/>
         </group>
-        <!-- Define main toolbar button -->
-        <action id="com.keepdev.pycharmbrowserextension.ToolbarButtonAction"
-                class="com.keepdev.pycharmbrowserextension.ToolbarButtonAction"
-                text="Pack as Extension"
-                description="Quickly pack your project as an extension"
-                icon="/META-INF/pluginIcon.svg">
-            <add-to-group group-id="MainToolbarNewUI" anchor="last"/>
-        </action>
 
-        <!-- Define a dropdown group for selecting the default action -->
-        <group id="com.keepdev.pycharmbrowserextension.ToolbarButtonGroup"
-               text="Choose Packing Format"
-               popup="true">
-            <add-to-group group-id="MainToolbarNewUI" anchor="after" relative-to-action="com.keepdev.pycharmbrowserextension.ToolbarButtonAction"/>
-            <action id="com.keepdev.pycharmbrowserextension.SetDefaultToZipAction"
-                    class="com.keepdev.pycharmbrowserextension.SetDefaultToZipAction"
-                    text="Use .zip as default"/>
-            <action id="com.keepdev.pycharmbrowserextension.SetDefaultToXpiAction"
-                    class="com.keepdev.pycharmbrowserextension.SetDefaultToXpiAction"
-                    text="Use .xpi as default"/>
+        <group id="com.keepdev.pycharmbrowserextension.ToolbarButtonActionGroup"
+               text="Pack as Extension"
+               popup="true"
+               icon="/META-INF/pluginIcon.svg">
+
+            <action
+                    id="com.keepdev.pycharmbrowserextension.FileSaveAsZip"
+                    class="com.keepdev.pycharmbrowserextension.PackAsZipAction"
+                    text="Pack as .zip"
+                    description="Pack project files into a .zip archive"/>
+
+            <action
+                    id="com.keepdev.pycharmbrowserextension.FileSaveAsXpi"
+                    class="com.keepdev.pycharmbrowserextension.PackAsXpiAction"
+                    text="Pack as .xpi"
+                    description="Pack project files into a .xpi archive"/>
+
+            <add-to-group group-id="MainToolbarLeft" anchor="last" />
         </group>
+
     </actions>
 </idea-plugin>

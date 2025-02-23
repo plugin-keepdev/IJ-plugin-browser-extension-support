@@ -2,21 +2,30 @@ package com.keepdev.pycharmbrowserextension
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
+import com.intellij.openapi.vfs.VfsUtil
+import com.intellij.openapi.vfs.VirtualFileManager
 import java.nio.file.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
+import com.intellij.openapi.fileEditor.FileDocumentManager
 
 open class PackAsZipAction(
     text: String = ".zip for extension store",
     description: String = "Pack project files into a .zip archive"
 ) : AnAction(text, description, null) {
     override fun actionPerformed(e: AnActionEvent) {
+
         val project: Project = e.project ?: return
+        // Save user choice as "zip"
+        project.service<UserChoiceService>().setUserChoice("zip")
         val projectPath: String = project.basePath ?: return
 
         val zipPath = Paths.get(projectPath, "${project.name}.zip")
+
+        FileDocumentManager.getInstance().saveAllDocuments()
 
         try {
             // Delete the existing .zip file if it exists
@@ -37,13 +46,33 @@ open class PackAsZipAction(
 
             // Ensure changes are committed to disk and visible in the file system
             val localFileSystem = LocalFileSystem.getInstance()
-            // Refresh the zip file itself (to force IDE to update its state)
-            val zipVFile = localFileSystem.refreshAndFindFileByNioFile(zipPath)
-            zipVFile?.refresh(/* asynchronous = */ false, /* recursive = */ false)
 
-            // Refresh the project directory (useful for ensuring .zip visibility in file explorer)
+// Refresh the zip file itself synchronously
+            val zipVFile = localFileSystem.refreshAndFindFileByNioFile(zipPath)
+            zipVFile?.let {
+                // Use markDirtyAndRefresh for better handling
+                VfsUtil.markDirtyAndRefresh(
+                    /* async = */ false,    // Synchronous refresh
+                    /* recursive = */ false, // Single file
+                    /* reloadChildren = */ false,
+                    it
+                )
+            }
+
+// Refresh the project directory synchronously
             val projectDirVFile = localFileSystem.refreshAndFindFileByNioFile(Paths.get(projectPath))
-            projectDirVFile?.refresh(/* asynchronous = */ false, /* recursive = */ true)
+            projectDirVFile?.let {
+                // Use markDirtyAndRefresh for recursive updates
+                VfsUtil.markDirtyAndRefresh(
+                    /* async = */ false,     // Synchronous refresh
+                    /* recursive = */ true,  // Refresh all directories
+                    /* reloadChildren = */ true, // Reload children
+                    it
+                )
+            }
+
+// Ensure file system sync to finalize all updates
+            VirtualFileManager.getInstance().syncRefresh()
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
