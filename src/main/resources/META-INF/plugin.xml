@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.keepdev.PyCharmBrowserExtension</id>
     <name>Browser Extension Generator</name>
-    <version>1.0</version>
+    <version>1.1</version>
     <vendor email="support@keepdev.com" url="https://www.keepdev.com">Keepdev</vendor>
     <description>
         Adds a new project type, Browser Extension, to a File | New Project dialogue and an option to generate a browser extension in a form of .zip, .xpi or .crx out of the projects file
@@ -11,7 +11,7 @@
 
         Support: ij-browser-extension-support@keepdev.com
     </description>
-    <idea-version since-build="243" until-build="243.*" />
+    <idea-version since-build="243"/>
 
     <depends>com.intellij.modules.platform</depends>
 
@@ -30,11 +30,6 @@
                     description="Pack project files into a .zip archive">
             </action>
             <action
-                    id="FileSaveAsExtension.PackAsCrx"
-                    class="com.keepdev.pycharmbrowserextension.PackAsCrxAction"
-                    text=".crx for Chrome"
-                    description="Pack project files into a .crx archive" />
-            <action
                     id="FileSaveAsExtension.PackAsXpi"
                     class="com.keepdev.pycharmbrowserextension.PackAsXpiAction"
                     text=".xpi for Firefox"
@@ -49,15 +44,31 @@
                     description="Pack project files into a .zip archive">
             </action>
             <action
-                    id="PackActionGroup.PackAsCrx"
-                    class="com.keepdev.pycharmbrowserextension.PackAsCrxAction"
-                    text=".crx for Chrome"
-                    description="Pack project files into a .crx archive" />
-            <action
                     id="PackActionGroup.PackAsXpi"
                     class="com.keepdev.pycharmbrowserextension.PackAsXpiAction"
                     text=".xpi for Firefox"
                     description="Pack project files into a .xpi archive" />
+        </group>
+        <!-- Define main toolbar button -->
+        <action id="com.keepdev.pycharmbrowserextension.ToolbarButtonAction"
+                class="com.keepdev.pycharmbrowserextension.ToolbarButtonAction"
+                text="Pack as Extension"
+                description="Quickly pack your project as an extension"
+                icon="/META-INF/pluginIcon.svg">
+            <add-to-group group-id="MainToolbarNewUI" anchor="last"/>
+        </action>
+
+        <!-- Define a dropdown group for selecting the default action -->
+        <group id="com.keepdev.pycharmbrowserextension.ToolbarButtonGroup"
+               text="Choose Packing Format"
+               popup="true">
+            <add-to-group group-id="MainToolbarNewUI" anchor="after" relative-to-action="com.keepdev.pycharmbrowserextension.ToolbarButtonAction"/>
+            <action id="com.keepdev.pycharmbrowserextension.SetDefaultToZipAction"
+                    class="com.keepdev.pycharmbrowserextension.SetDefaultToZipAction"
+                    text="Use .zip as default"/>
+            <action id="com.keepdev.pycharmbrowserextension.SetDefaultToXpiAction"
+                    class="com.keepdev.pycharmbrowserextension.SetDefaultToXpiAction"
+                    text="Use .xpi as default"/>
         </group>
     </actions>
 </idea-plugin>

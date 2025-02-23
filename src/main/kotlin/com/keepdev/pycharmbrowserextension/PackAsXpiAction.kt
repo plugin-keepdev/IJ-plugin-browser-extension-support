@@ -2,6 +2,7 @@ package com.keepdev.pycharmbrowserextension
 
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.vfs.LocalFileSystem
+import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
@@ -18,12 +19,17 @@ class PackAsXpiAction : PackAsZipAction(
         val xpiPath = Paths.get(projectPath, "${project.name}.xpi")
 
         try {
-            java.nio.file.Files.move(zipPath, xpiPath, StandardCopyOption.REPLACE_EXISTING)
-            println("Project packed as .xpi: $xpiPath")
+            // Ensure old .xpi file is deleted if it exists
+            if (Files.exists(xpiPath)) {
+                Files.delete(xpiPath)
+            }
+
+            // Move .zip to .xpi
+            Files.move(zipPath, xpiPath, StandardCopyOption.REPLACE_EXISTING)
+
+            // Refresh file system changes
             val localFileSystem = LocalFileSystem.getInstance()
-            // Find VirtualFile for the project folder:
             val projectDirVFile = localFileSystem.refreshAndFindFileByNioFile(Paths.get(projectPath))
-            // Force a synchronous refresh on the project directory, recursively:
             projectDirVFile?.refresh(/* asynchronous = */ false, /* recursive = */ true)
         } catch (ex: Exception) {
             ex.printStackTrace()

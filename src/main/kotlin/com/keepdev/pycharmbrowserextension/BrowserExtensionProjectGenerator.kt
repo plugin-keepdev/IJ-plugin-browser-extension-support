@@ -124,13 +124,13 @@ class BrowserExtensionProjectGenerator : DirectoryProjectGenerator<Any> {
                 
                                 "manifest_version": 2,
                                 
-                and the section "action" must be called "browser_action" in the manifest.
+                and the section "action" must be called "browser_action" in the manifest. Manifest version 3 is supported in Firefox but only for newer versions.
                 
                 Also, add the following section when you need to pack the extension for Firefox (for example, right after the "permissions" section):
                 
                                 "browser_specific_settings": {
                                     "gecko": {
-                                        "strict_min_version": "56.0a1",
+                                        "strict_min_version": "58.0",
                                         "id": "YOUR-SUPPORT-EMAIL-OR-ANOTHER-ID@your-company.com"
                                     }
                                 },

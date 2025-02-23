@@ -8,7 +8,6 @@ open class PackActionGroup : DefaultActionGroup() {
     override fun getChildren(e: AnActionEvent?): Array<AnAction> {
         return arrayOf(
             PackAsZipAction(),
-            PackAsCrxAction(),
             PackAsXpiAction()
         )
     }

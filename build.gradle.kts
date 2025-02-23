@@ -10,7 +10,6 @@ version = "1.0-SNAPSHOT"
 dependencies {
     intellijPlatform {
         pycharmProfessional("2024.3.1")
-//        bundledPlugin("PythonCore")
     }
 }
 
@@ -32,8 +31,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("241")
-        untilBuild.set("243.*")
+        sinceBuild.set("243")
     }
 
     signPlugin {

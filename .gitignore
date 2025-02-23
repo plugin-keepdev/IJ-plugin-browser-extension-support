@@ -9,6 +9,7 @@ build/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.intellijPlatform/self-update.lock
 
 ### added by the plugin author
 .idea/workspace.xml

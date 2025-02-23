@@ -19,25 +19,47 @@ open class PackAsZipAction(
         val zipPath = Paths.get(projectPath, "${project.name}.zip")
 
         try {
+            // Delete the existing .zip file if it exists
+            if (Files.exists(zipPath)) {
+                Files.delete(zipPath)
+            }
+
+            // Create the .zip file
             ZipOutputStream(Files.newOutputStream(zipPath)).use { zos ->
                 Files.walk(Paths.get(projectPath)).forEach { path ->
-                    if (Files.isRegularFile(path)) {
+                    if (shouldInclude(path, projectPath)) {
                         zos.putNextEntry(ZipEntry(Paths.get(projectPath).relativize(path).toString()))
                         Files.copy(path, zos)
                         zos.closeEntry()
                     }
                 }
             }
-            println("Project packed as .zip: $zipPath")
-            val localFileSystem = LocalFileSystem.getInstance()
-            // Find VirtualFile for the project folder:
-            val projectDirVFile = localFileSystem.refreshAndFindFileByNioFile(Paths.get(projectPath))
-            // Force a synchronous refresh on the project directory, recursively:
-            projectDirVFile?.refresh(/* asynchronous = */ false, /* recursive = */ true)
 
+            // Ensure changes are committed to disk and visible in the file system
+            val localFileSystem = LocalFileSystem.getInstance()
+            // Refresh the zip file itself (to force IDE to update its state)
+            val zipVFile = localFileSystem.refreshAndFindFileByNioFile(zipPath)
+            zipVFile?.refresh(/* asynchronous = */ false, /* recursive = */ false)
+
+            // Refresh the project directory (useful for ensuring .zip visibility in file explorer)
+            val projectDirVFile = localFileSystem.refreshAndFindFileByNioFile(Paths.get(projectPath))
+            projectDirVFile?.refresh(/* asynchronous = */ false, /* recursive = */ true)
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
     }
-}
 
+    // Function to filter excluded files/directories
+    private fun shouldInclude(path: Path, projectPath: String): Boolean {
+        // Exclude `.DS_Store` globally
+        if (path.fileName.toString() == ".DS_Store") return false
+        // Exclude the `.idea` directory and its contents
+        if (path.startsWith(Paths.get(projectPath, ".idea"))) return false
+        // Exclude files with `.xpi` or `.zip` extensions
+        if (path.fileName.toString().endsWith(".xpi") || path.fileName.toString().endsWith(".zip")) return false
+        // Exclude `icons/.DS_Store`
+        if (path == Paths.get(projectPath, "icons", ".DS_Store")) return false
+        // Add only regular files (skip directories themselves as entries)
+        return Files.isRegularFile(path)
+    }
+}
