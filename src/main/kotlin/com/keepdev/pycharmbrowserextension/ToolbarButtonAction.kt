@@ -27,7 +27,6 @@ class ToolbarButtonAction : ActionGroup() {
         val project: Project = e.project ?: return
         val stateService = project.service<UserChoiceService>()
 
-        // Update the button's text based on the last user choice
         val actionName = when (stateService.getUserChoice()) {
             "xpi" -> "Pack as .xpi"
             else -> "Pack as .zip"

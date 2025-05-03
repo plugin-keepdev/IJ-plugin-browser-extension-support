@@ -1,15 +1,15 @@
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.9.25"
+    id("org.jetbrains.kotlin.jvm") version "2.0.0"
     id("org.jetbrains.intellij.platform") version "2.2.0"
 }
 
 group = "com.keepdev"
-version = "1.1"
+version = "1.2"
 
 dependencies {
     intellijPlatform {
-        pycharmProfessional("2024.3.1")
+        pycharmProfessional("2025.1")
     }
 }
 

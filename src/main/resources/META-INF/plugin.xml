@@ -1,18 +1,19 @@
 <idea-plugin>
     <id>com.keepdev.PyCharmBrowserExtension</id>
     <name>Browser Extension Generator</name>
-    <version>1.1</version>
+    <version>1.2</version>
     <vendor email="support@keepdev.com" url="https://www.keepdev.com">Keepdev</vendor>
     <description>
-        Adds a new project type, Browser Extension, to a File | New Project dialogue and an option to generate a browser
-        extension in a form of .zip, .xpi or .crx out of the projects file
-        in the project directory.
+        Adds a new project type, Browser Extension, to a File | New Project dialogue and
+        an option to generate a browser
+        extension bundle in a form of .zip or .xpi in the project directory.
+
         The latter option is available as a last line of a context menu
         (when you click on a project name) and in File menu.
 
         Support: ij-browser-extension-support@keepdev.com
     </description>
-    <idea-version since-build="243"/>
+    <idea-version since-build="243" until-build="261.*"/>
 
     <depends>com.intellij.modules.platform</depends>
 
