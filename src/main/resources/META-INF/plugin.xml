@@ -1,8 +1,9 @@
 <idea-plugin>
     <id>com.keepdev.PyCharmBrowserExtension</id>
     <name>Browser Extension Generator</name>
-    <version>1.2</version>
+    <version>1.3</version>
     <vendor email="support@keepdev.com" url="https://www.keepdev.com">Keepdev</vendor>
+
     <description>
         Adds a new project type, Browser Extension, to a File | New Project dialogue and
         an option to generate a browser
@@ -11,18 +12,42 @@
         The latter option is available as a last line of a context menu
         (when you click on a project name) and in File menu.
 
+        Generates standard size extension icons out of .png or .jpg image if you put the image to the
+        icons/ directory. Make sure the image is a square. If it is not, the extension cuts it to make
+        it square.
+
+        *What's new in version 1.3*: A new option "Generate Standard Icons" is available when right-clicking
+        on a .png/.jpg file in an "icons" directory, and also in the custom
+        toolbar button dropdown.
+
         Support: ij-browser-extension-support@keepdev.com
     </description>
+
     <idea-version since-build="243" until-build="261.*"/>
 
     <depends>com.intellij.modules.platform</depends>
 
+    <!-- Extensions: Project Generator and Notification Group -->
     <extensions defaultExtensionNs="com.intellij">
         <directoryProjectGenerator
                 implementation="com.keepdev.pycharmbrowserextension.BrowserExtensionProjectGenerator"/>
+        <notificationGroup id="Browser Extension Generator Notifications" displayType="BALLOON"/>
     </extensions>
 
+    <!-- Actions -->
     <actions>
+        <action
+                id="com.keepdev.pycharmbrowserextension.GenerateIconsAction"
+                class="com.keepdev.pycharmbrowserextension.GenerateIconsAction"
+                text="Generate Standard Icons"
+                description="Generate standard browser extension icons (16, 32, 48, 128) from the selected image."
+                icon="/META-INF/pluginIcon.svg">
+            <add-to-group group-id="ProjectViewPopupMenu"
+                          anchor="before"
+                          relative-to-action="com.keepdev.pycharmbrowserextension.PackActionGroup"/>
+        </action>
+
+        <!-- 1. Group for File Menu Actions -->
         <group id="com.keepdev.pycharmbrowserextension.FileSaveAsExtension"
                description="Pack project files into an archive" text="Save project as extension" popup="true"
                compact="false">
@@ -31,23 +56,25 @@
                     id="FileSaveAsExtension.PackAsZip"
                     class="com.keepdev.pycharmbrowserextension.PackAsZipAction"
                     text=".zip for extension store"
-                    description="Pack project files into a .zip archive">
-            </action>
+                    description="Pack project files into a .zip archive"/>
             <action
                     id="FileSaveAsExtension.PackAsXpi"
                     class="com.keepdev.pycharmbrowserextension.PackAsXpiAction"
                     text=".xpi for Firefox"
                     description="Pack project files into a .xpi archive"/>
         </group>
+
+        <!-- 2. Group for Project View Context Menu (Submenu "Save as extension") -->
         <group id="com.keepdev.pycharmbrowserextension.PackActionGroup" description="Pack project files into an archive"
                text="Save as extension" popup="true" compact="false">
+            <!-- Adds this GROUP as a submenu to the main context menu -->
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+            <!-- Actions within this group appear *inside* the submenu -->
             <action
                     id="PackActionGroup.PackAsZip"
                     class="com.keepdev.pycharmbrowserextension.PackAsZipAction"
                     text=".zip for extension store"
-                    description="Pack project files into a .zip archive">
-            </action>
+                    description="Pack project files into a .zip archive"/>
             <action
                     id="PackActionGroup.PackAsXpi"
                     class="com.keepdev.pycharmbrowserextension.PackAsXpiAction"
@@ -55,25 +82,31 @@
                     description="Pack project files into a .xpi archive"/>
         </group>
 
+        <!-- 3. Group for Toolbar Button Dropdown -->
         <group id="com.keepdev.pycharmbrowserextension.ToolbarButtonActionGroup"
                text="Pack as Extension"
                popup="true"
                icon="/META-INF/pluginIcon.svg">
+            <!-- Adds the button ITSELF to the toolbar -->
+            <add-to-group group-id="MainToolbarLeft" anchor="last" />
 
+            <!-- Actions *within* this group appear in the button's dropdown -->
             <action
                     id="com.keepdev.pycharmbrowserextension.FileSaveAsZip"
                     class="com.keepdev.pycharmbrowserextension.PackAsZipAction"
                     text="Pack as .zip"
                     description="Pack project files into a .zip archive"/>
-
             <action
                     id="com.keepdev.pycharmbrowserextension.FileSaveAsXpi"
                     class="com.keepdev.pycharmbrowserextension.PackAsXpiAction"
                     text="Pack as .xpi"
                     description="Pack project files into a .xpi archive"/>
 
-            <add-to-group group-id="MainToolbarLeft" anchor="last" />
-        </group>
+            <!-- Separator for visual clarity (optional) -->
+            <separator/>
 
+            <reference ref="com.keepdev.pycharmbrowserextension.GenerateIconsAction"/>
+
+        </group>
     </actions>
 </idea-plugin>
