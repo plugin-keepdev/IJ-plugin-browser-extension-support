@@ -48,6 +48,7 @@ class BrowserExtensionProjectGenerator : DirectoryProjectGenerator<Any> {
                   "version": "1.0",
                   "description": "A generic boilerplate for building browser extensions",
                   "permissions": ["activeTab"],
+                  "host_permissions": ["<all_urls>"],
                   "action": {
                     "default_icon": {
                       "16": "icons/icon16.png",
@@ -58,19 +59,26 @@ class BrowserExtensionProjectGenerator : DirectoryProjectGenerator<Any> {
                       "128": "icons/icon128.png"
                     }
                   },
-                  "icons": {
+                    "icons": {
                     "32": "icons/icon32.png",
                     "48": "icons/icon48.png",
                     "64": "icons/icon64.png",
                     "96": "icons/icon96.png",
                     "128": "icons/icon128.png"
                   },
+                  "browser_specific_settings": {
+                    "gecko": {
+                      "id": "your-extension-id@YOUR-COMPANY.com",
+                      "strict_min_version": "109.0"
+                    }
+                  },
                   "background": {
                     "scripts": ["background.js"]
                   },
                   "content_scripts": [{
                     "matches": ["<all_urls>"],
-                    "js": ["content.js"]
+                    "js": ["content.js"],
+                    "run_at": "document_idle"
                   }]
                 }
             """.trimIndent()
