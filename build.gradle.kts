@@ -1,11 +1,11 @@
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "2.0.0"
-    id("org.jetbrains.intellij.platform") version "2.2.0"
+    id("org.jetbrains.intellij.platform") version "2.5.0"
 }
 
 group = "com.keepdev"
-version = "1.2"
+version = "1.4"
 
 dependencies {
     intellijPlatform {

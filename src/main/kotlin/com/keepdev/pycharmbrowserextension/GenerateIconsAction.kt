@@ -22,7 +22,7 @@ import kotlin.math.min // Import min function
 
 class GenerateIconsAction : AnAction() {
 
-    private val TARGET_SIZES = listOf(16, 32, 48, 128)
+    private val TARGET_SIZES = listOf(16, 32, 48, 64, 96, 128)
     private val ICONS_DIR_NAME = "icons"
     private val NOTIFICATION_GROUP_ID = "Browser Extension Generator Notifications" // Match ID in plugin.xml
 

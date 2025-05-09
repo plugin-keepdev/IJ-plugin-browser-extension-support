@@ -18,6 +18,7 @@ class BrowserExtensionProjectGenerator : DirectoryProjectGenerator<Any> {
     override fun getLogo(): Icon? {
         return IconLoader.getIcon("/META-INF/pluginIcon.svg", this::class.java)
     }
+
     override fun validate(baseDirPath: String): ValidationResult = ValidationResult.OK
 
     override fun generateProject(
@@ -34,6 +35,8 @@ class BrowserExtensionProjectGenerator : DirectoryProjectGenerator<Any> {
             copyIconResource(iconsDir, "icon16.png")
             copyIconResource(iconsDir, "icon32.png")
             copyIconResource(iconsDir, "icon48.png")
+            copyIconResource(iconsDir, "icon64.png")
+            copyIconResource(iconsDir, "icon96.png")
             copyIconResource(iconsDir, "icon128.png")
 
             // 3) Create manifest.json
@@ -50,8 +53,17 @@ class BrowserExtensionProjectGenerator : DirectoryProjectGenerator<Any> {
                       "16": "icons/icon16.png",
                       "32": "icons/icon32.png",
                       "48": "icons/icon48.png",
+                      "64": "icons/icon64.png",
+                      "96": "icons/icon96.png",
                       "128": "icons/icon128.png"
                     }
+                  },
+                  "icons": {
+                    "32": "icons/icon32.png",
+                    "48": "icons/icon48.png",
+                    "64": "icons/icon64.png",
+                    "96": "icons/icon96.png",
+                    "128": "icons/icon128.png"
                   },
                   "background": {
                     "scripts": ["background.js"]

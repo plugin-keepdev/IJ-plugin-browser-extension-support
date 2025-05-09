@@ -1,27 +1,49 @@
 <idea-plugin>
     <id>com.keepdev.PyCharmBrowserExtension</id>
     <name>Browser Extension Generator</name>
-    <version>1.3</version>
+    <version>1.5</version>
     <vendor email="support@keepdev.com" url="https://www.keepdev.com">Keepdev</vendor>
 
     <description>
-        Adds a new project type, Browser Extension, to a File | New Project dialogue and
-        an option to generate a browser
-        extension bundle in a form of .zip or .xpi in the project directory.
+        <![CDATA[
+        Adds a new project type, <b>Browser Extension</b>, to the <i>File | New Project</i> dialog,
+        and an option to generate a browser extension bundle as a <code>.zip</code>
+        or <code>.xpi</code> file in the project directory.
 
-        The latter option is available as a last line of a context menu
-        (when you click on a project name) and in File menu.
+        You can generate the extension from the project context menu (<b>File | Save as extension</b>) or from File
+        menu (<b>File | Save project as extension</b>). Both options create the extension file you need:
+        <ul>
+          <li>As the item at the bottom of the context menu (right-click on the project name)</li>
+          <li>In the <i>File</i> menu</li>
+        </ul>
 
-        Generates standard size extension icons out of .png or .jpg image if you put the image to the
-        icons/ directory. Make sure the image is a square. If it is not, the extension cuts it to make
-        it square.
+        Additionally, the plugin can generate standard-size extension icons from
+        a <code>.png</code> or <code>.jpg</code> image placed in the <code>icons/</code> directory.
+        The image must be square: if it's not, it will be cropped to a square by the shortest side
+        automatically.
 
-        *What's new in version 1.3*: A new option "Generate Standard Icons" is available when right-clicking
-        on a .png/.jpg file in an "icons" directory, and also in the custom
-        toolbar button dropdown.
+        <h3>What's New</h3>
+        <ul>
+          <li><b>Version 1.3:</b> A new "Generate Standard Icons" option is available when right-clicking a <code>.png</code> or <code>.jpg</code> file in the <code>icons</code> directory, and from the custom toolbar button dropdown.</li>
+          <li><b>Version 1.4:</b> Additional icon sizes (64x64 and 96x96) are now generated in the <code>icons/</code> directory.</li>
+        </ul>
 
-        Support: ij-browser-extension-support@keepdev.com
+        <b>Support:</b> <a href="mailto:ij-browser-extension-support@keepdev.com">ij-browser-extension-support@keepdev.com</a>
+        ]]>
     </description>
+
+
+    <change-notes>
+        <![CDATA[
+          <h2>Version 1.5</h2>
+          <ul>
+            <li>Icons with sizes of 64x64 and 96x96 are now also generated in icons/ directory</li>
+            <li>All icons are now correctly listed in the manifest.json after generation</li>
+            <li>Better plugin description is provided</li>
+          </ul>
+        ]]>
+    </change-notes>
+
 
     <idea-version since-build="243" until-build="261.*"/>
 
@@ -88,7 +110,7 @@
                popup="true"
                icon="/META-INF/pluginIcon.svg">
             <!-- Adds the button ITSELF to the toolbar -->
-            <add-to-group group-id="MainToolbarLeft" anchor="last" />
+            <add-to-group group-id="MainToolbarLeft" anchor="last"/>
 
             <!-- Actions *within* this group appear in the button's dropdown -->
             <action
